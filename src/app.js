@@ -5,11 +5,17 @@ import "./style.css";
 import "./assets/img/rigo-baby.jpg";
 import "./assets/img/4geeks.ico";
 
+//funcion para recargar pagina usando boton
 const HandleBoton = e => {
   console.log("Me clickeaste");
   location.reload(); //para refrescar pagina
   return;
 };
+
+//funcion para recargar pagina cada 10 segundos
+setTimeout(function() {
+  window.location.reload();
+}, 10000);
 
 window.onload = function() {
   //write your code here
@@ -23,12 +29,14 @@ window.onload = function() {
   //CARTA
   let nuevoDiv = document.createElement("DIV"); //createElement es para crear etiquetas html
   let app = document.querySelector("#app"); //Se debe poner #
+  nuevoDiv.style.width = "300px";
+  nuevoDiv.style.height = "450px";
   nuevoDiv.classList.add(
     "container",
     "bg",
     "bg-light",
-    "w-25",
-    "h-100",
+    //"w-25",
+    //"h-100",
     "mt-5"
   );
   nuevoDiv.innerHTML = `<div class="row symbol heading">Generate a new card</div> <div class="row number">Specify the card width and height</div> <div class="row symbol reverse">Fila 3</div>`; //innerHTML= agrega etiquetas envueltas en texto
@@ -68,8 +76,8 @@ window.onload = function() {
   column2.appendChild(content2);
   content2.classList.add("h4", "pb-2");
 
-  //segunda columna se divide en tres columnas
-  //primera
+  //segunda columna se divide en tres columnas:
+  //primera columna
   const textCol = document.createElement("div");
   textCol.style.width = "33%";
   textCol.style.float = "left";
@@ -82,26 +90,36 @@ window.onload = function() {
   textH.textContent = "Height";
   textCol.appendChild(textH);
 
-  //segunda
+  //segunda columna
   const inputCol = document.createElement("div");
   inputCol.style.width = "33%";
   inputCol.style.float = "left";
 
   //Inputs para width y height
+  //WIDTH
   var inputW = document.createElement("input");
-  inputW.type = "text";
+  inputW.type = "number";
   //inputW.className = "css-class-name"; // Asi se puede asignar una clase tambien
   inputW.style.width = "200px";
   inputCol.appendChild(inputW); // put it into the DOM
-
+  //codigo para tomar valor del input y aplicarlo a width (EventListener)
+  inputW.addEventListener("input", function() {
+    const newWidth = inputW.value + "px";
+    nuevoDiv.style.width = newWidth;
+  });
+  //HIGHT
   var inputH = document.createElement("input");
-  inputH.type = "text";
-  //inputW.className = "css-class-name"; // Asi se puede asignar una clase tambien
+  inputH.type = "number";
   inputH.style.width = "200px";
   inputH.className = "mt-2";
   inputCol.appendChild(inputH); // put it into the DOM
+  //codigo para tomar valor del input y aplicarlo a height
+  inputH.addEventListener("input", function() {
+    const newHight = inputH.value + "px";
+    nuevoDiv.style.height = newHight;
+  });
 
-  //tercera
+  //tercera columna
   const unitCol = document.createElement("div");
   unitCol.style.width = "33%";
   unitCol.style.float = "left";
@@ -132,7 +150,6 @@ window.onload = function() {
   textMessage.classList.add("text-center", "h5", "text-white", "mt-4");
 
   message.appendChild(newMessage);
-
   //TERMINA MENSAJE
 
   //Seccion para elegir un numero aleatorio para la carta
@@ -153,11 +170,12 @@ window.onload = function() {
 
   //Seccion para elegir la suit de la carta ♦ ♥ ♠ ♣ (creacion de objetos)
   let suit = [
-    //document.getElementById("simbolo") (no funciona)
-    ({ suit: "♥", color: "red" },
+    //document.getElementById("simbolo")(
+    { suit: "♥", color: "red" },
     { suit: "♦", color: "red" },
     { suit: "♠", color: "black" },
-    { suit: "♣", color: "black" })
+    { suit: "♣", color: "black" }
+    //)
   ];
 
   let suitAleatoria = Math.floor(Math.random() * suit.length);
